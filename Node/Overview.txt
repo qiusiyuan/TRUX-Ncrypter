@@ -1,0 +1,11 @@
+
+Node.js is an open source server framework
+Node.js is free
+Node.js runs on various platforms (Windows, Linux, Unix, Mac OS X, etc.)
+Node.js uses JavaScript on the server
+
+NPM is a package manager for Node.js packages, or modules if you like.
+www.npmjs.com hosts thousands of free packages to download and use.
+The NPM program is installed on your computer when you install Node.js
+
+nom install 
