@@ -10,7 +10,21 @@ module.exports = {
 };
 
 function updateInfoSet(req, res){
-  console.log("not implemented yet")
+  var ID = req.swagger.params.infoSetName.value;
+  console.log("receive request to update " + ID);
+  var fsname = ID + '.json';
+  var body = req.body;
+  var fspath= helper.composePath(fsname);
+  var errMessage;
+  fs.writeFile(fspath, JSON.stringify(body), {flag:'r+'}, function(err){
+    if(err){
+      console.log(err);
+      return res.json({message:err});
+    }
+    else{
+      return res.json({success:true, message: ID + " updated"});
+    }
+  });
 }
 
 function deleteInfoSet(req, res){
