@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var async = require('async');
 var helper = require('../helpers/helper');
+
 module.exports = {
   createInfoSet : createInfoSet,
   getAllInfoSet : getAllInfoSet
@@ -19,8 +20,8 @@ function createInfoSet(req, res){
   fs.writeFile(fspath, JSON.stringify(body), {flag:'wx'}, function(err){
     if (err){
       if (err.code === 'EEXIST') {
-        errMessage = 'Credential ' + fspath + " already exists";
-        console.log('Credential ' + fspath + " already exists");
+        errMessage = 'infoset ' + fspath + " already exists";
+        console.log('infoset ' + fspath + " already exists");
       } else {
         errMessage = err;
         console.log(err);
@@ -34,6 +35,7 @@ function createInfoSet(req, res){
 }
 
 function getAllInfoSet(req, res){
+  console.log("receive request to view all info set");
   var fpath = config.storage;
   var result;
   fs.readdir(fpath, function(err, files) {
@@ -42,23 +44,12 @@ function getAllInfoSet(req, res){
     files = files.filter(function(file) {
       return regExp.test(file);
     });
+    console.log("All files:");
     console.log(files);
-    async.map(files, helper.composePath, function(err, paths){
-      if (err){
-        console.log(err);
-        return res.json({message: err});
-      }
-      else {
-        async.map(paths, fs.readFile, function(err, vals){
-          if (err){
-            console.log(err);
-            return res.json({message: err});
-          }
-          else{
-            console.log(vals)
-            return res.json(vals);
-          }
-        });
+    async.map(files, helper.readInfoSet, function(err, vals){
+      if(err) return res.json({message:err});
+      else{
+        return res.json(vals)
       }
     });
   });
