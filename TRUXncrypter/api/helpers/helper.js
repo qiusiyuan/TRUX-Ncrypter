@@ -3,9 +3,9 @@ var config = require('../../config/config').getconfig();
 var path = require("path");
 var fs = require("fs");
 
-exports.composePath = function composePath(file, callback){
+exports.composePath = function composePath(file){
   var home = config.storage;
-  return callback(null, path.join(home, file));
+  return path.join(home, file);
 }
 
 exports.readInfoSet = function readInfoSet(file, callback){

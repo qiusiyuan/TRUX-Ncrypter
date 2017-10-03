@@ -39,7 +39,10 @@ function getAllInfoSet(req, res){
   var fpath = config.storage;
   var result;
   fs.readdir(fpath, function(err, files) {
-    if (err) return res.json({message: err});
+    if (err) {
+      console.log(err);
+      return res.json({message: err});
+    }
     var regExp = new RegExp('\.*.json$');
     files = files.filter(function(file) {
       return regExp.test(file);
@@ -47,8 +50,12 @@ function getAllInfoSet(req, res){
     console.log("All files:");
     console.log(files);
     async.map(files, helper.readInfoSet, function(err, vals){
-      if(err) return res.json({message:err});
+      if(err) {
+        console.log(err);
+        return res.json({message:err})
+      }
       else{
+        console.log("view all request successfully addressed");
         return res.json(vals)
       }
     });

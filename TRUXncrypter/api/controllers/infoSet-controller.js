@@ -14,13 +14,32 @@ function updateInfoSet(req, res){
 }
 
 function deleteInfoSet(req, res){
-  console.log("not implemented yet")
+  var infoSetName = req.swagger.params.infoSetName.value + '.json';
+  console.log("receive request to delete " + infoSetName);
+  var fpath = helper.composePath(infoSetName);
+  fs.unlink(fpath, function (err) {
+    if (err){
+      console.log(err);
+      if(err.code === 'ENOENT'){
+        res.status(400);
+        return res.json({message: infoSetName + " not exists"});
+      }
+      else{
+        return res.json({message:err});
+      }
+    }
+    console.log(fpath + " successfully deleted")
+    return res.json({success: true , message: infoSetName + ' deleted'});
+  });
+  
 }
 
 function getInfoSet(req, res){
   var infoSetName = req.swagger.params.infoSetName.value + '.json';
+  console.log("receive request to view infoSet: " + infoSetName);
   helper.readInfoSet(infoSetName,function(err, vals){
     if(err) {
+      console.log(err);
       if(err.code === 'ENOENT'){
         res.status(404);
         return res.json({message: infoSetName + ' not exist'});
@@ -30,6 +49,7 @@ function getInfoSet(req, res){
         return res.json({message: err});
       }
     }
+    console.log("view " + infoSetName + " request successfully addressed");
     return res.json(vals);
   });
 }
