@@ -26,3 +26,7 @@ function createInfoSet(req, res){
     return res.json({success: true, message:  + req.swagger.params.name.value + "saved"});
   });
 }
+
+function getAllInfoSet(req, res){
+  console.log("not implemented yet");
+}
