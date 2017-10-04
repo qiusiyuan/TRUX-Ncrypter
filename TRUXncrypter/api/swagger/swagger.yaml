@@ -1,0 +1,225 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: TRUXncrypter API
+host: 'localhost:10010'
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /ncrypter:
+    post:
+      tags:
+        - ncrypter
+      summary: Creates a new ncrypter-info-set
+      description: Creates a new ncrypter-info-set
+      operationId: createInfoSet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                example: QQ
+              username:
+                type: string
+                example: 123456789
+              password:
+                type: string
+                example: '********'
+              QA:
+                type: object
+                example:
+                  what's your id?: '7829189'
+                  what's your ip?: 127.0.0.2
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      x-swagger-router-controller: ncrypter-controller
+    get:
+      tags:
+        - ncrypter
+      summary: Gets an array of all infoSet
+      description: >-
+        Gets an array of all infoSet. The response returns an array of
+        objects. Each object contains the name, username, password and
+        QA, sorted by name.
+      operationId: getAllInfoSet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/GetAllInfoSetResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      x-swagger-router-controller: ncrypter-controller
+  '/ncrypter/{infoSetName}':
+    put:
+      tags:
+        - infoset
+      summary: Updates an existing infoset
+      description: >-
+        Updates an existing datasource. Only the description and URL can be
+        updated.
+      operationId: updateInfoSet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: infoSetName
+          in: path
+          description: Info set Name
+          type: string
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                example: QQ
+              username:
+                type: string
+                example: 123456789
+              password:
+                type: string
+                example: '********'
+              QA:
+                type: object
+                example:
+                  what's your id?: '7829189'
+                  what's your ip?: 127.0.0.2
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          description: Error.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      x-swagger-router-controller: infoSet-controller
+    delete:
+      tags:
+        - infoset
+      summary: Deletes an existing infoSet
+      description: Deletes an existing infoSet
+      operationId: deleteInfoSet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: infoSetName
+          in: path
+          description: info Set name
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        default:
+          description: Error.
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      x-swagger-router-controller: infoSet-controller
+    get:
+      tags:
+        - infoset
+      summary: Gets a single infoset
+      description: >-
+        Gets an array of all datasources. The response returns the definition of
+        the specific datasource including the name, description, datasource type
+        and URL.
+      operationId: getInfoSet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: infoSetName
+          in: path
+          description: info set Name
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/GetInfoSetResponse'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      x-swagger-router-controller: infoSet-controller
+  /swagger:
+    x-swagger-pipe: swagger_raw
+definitions:
+  SuccessResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  GetAllInfoSetResponse:
+    required:
+      - ncrypter
+    properties:
+      ncrypter:
+        type: array
+        items:
+          type: object
+  GetInfoSetResponse:
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: QQ
+      username:
+        type: string
+        example: 123456789
+      password:
+        type: string
+        example: '********'
+      QA:
+        type: object
+        example:
+          what's your id?: '7829189'
+          what's your ip?: 127.0.0.2
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
