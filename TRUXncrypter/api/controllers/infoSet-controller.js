@@ -14,15 +14,22 @@ function updateInfoSet(req, res){
   console.log("receive request to update " + ID);
   var fsname = ID + '.json';
   var body = req.body;
+  if(body.name !== ID){
+    console.log( "Rejected: body.name: " + body.name + " doesn't match path name " + ID );
+    res.status(400)
+    return res.json({success: false, message: "body.name: " + body.name + " doesn't match path name " + ID});
+  }
   var fspath= helper.composePath(fsname);
   var errMessage;
-  fs.writeFile(fspath, JSON.stringify(body), {flag:'r+'}, function(err){
+  fs.writeFile(fspath, JSON.stringify(body), {flag:'w'}, function(err){
     if(err){
       console.log(err);
-      return res.json({message:err});
+      res.status(400);
+      return res.json({success: false, message: err.message});
     }
     else{
-      return res.json({success:true, message: ID + " updated"});
+      console.log(ID + " updated");
+      return res.json({success: true, message: ID + " updated"});
     }
   });
 }
@@ -35,11 +42,12 @@ function deleteInfoSet(req, res){
     if (err){
       console.log(err);
       if(err.code === 'ENOENT'){
-        res.status(400);
-        return res.json({message: infoSetName + " not exists"});
+        res.status(404);
+        return res.json({success: false, message: infoSetName + " not exists"});
       }
       else{
-        return res.json({message:err});
+        res.status(400);
+        return res.json({success: false, message: err.message});
       }
     }
     console.log(fpath + " successfully deleted")
@@ -56,11 +64,11 @@ function getInfoSet(req, res){
       console.log(err);
       if(err.code === 'ENOENT'){
         res.status(404);
-        return res.json({message: infoSetName + ' not exist'});
+        return res.json({success: false, message: infoSetName + ' not exist'});
       }
       else{
         res.status(400);
-        return res.json({message: err});
+        return res.json({success: false, message: err.message});
       }
     }
     console.log("view " + infoSetName + " request successfully addressed");

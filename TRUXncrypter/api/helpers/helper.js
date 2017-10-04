@@ -25,7 +25,7 @@ exports.readInfoSet = function readInfoSet(file, callback){
       //replaces the last .json
       return callback(null, retVal);
     } catch (exce) {
-      return callback(new Error('Cannot parse JSON for ' + path.join(options.proj, datasourcePath, dsfName)));
+      return callback(new Error('Cannot parse JSON for ' + fpath));
     }
   });
 }

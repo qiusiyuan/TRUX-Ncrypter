@@ -27,7 +27,7 @@ function createInfoSet(req, res){
         console.log(err);
       }
       res.status(400);
-      return res.json({message: errMessage});
+      return res.json({success: false, message: errMessage});
     }
     console.log(fspath + " successfully created");
     return res.json({success: true, message: fspath + " saved"});
@@ -41,7 +41,7 @@ function getAllInfoSet(req, res){
   fs.readdir(fpath, function(err, files) {
     if (err) {
       console.log(err);
-      return res.json({message: err});
+      return res.json({success: false, message: err.message});
     }
     var regExp = new RegExp('\.*.json$');
     files = files.filter(function(file) {
@@ -52,7 +52,8 @@ function getAllInfoSet(req, res){
     async.map(files, helper.readInfoSet, function(err, vals){
       if(err) {
         console.log(err);
-        return res.json({message:err})
+        res.status(500);
+        return res.json({success: false, message: err.message})
       }
       else{
         console.log("view all request successfully addressed");
