@@ -1,0 +1,45 @@
+.form-control {
+  font-size: 2rem;
+  width: 500px;
+  padding: 14px 14px;
+}
+.form-group{
+  padding: 5px 5px;
+  width: 400px;
+  height: 70px;
+}
+.list-group{
+  width:550px;
+  height: 350px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
+  overflow-x: hidden;
+
+}
+
+.list-group-item{
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  text-align: center;
+  padding-left: 180px;
+  padding-top: auto;
+  background-color: lightgrey;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+.list-group-item a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+  width: 200px;
+ 
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+.list-group-item a:hover {
+  font-size: 30px;
+}
