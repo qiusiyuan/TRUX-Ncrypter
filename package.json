@@ -1,0 +1,25 @@
+{
+  "name": "truxncrypter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qiusiyuan/TRUX-Ncrypter.git"
+  },
+  "author": "Siyuan Qiu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qiusiyuan/TRUX-Ncrypter/issues"
+  },
+  "homepage": "https://github.com/qiusiyuan/TRUX-Ncrypter#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "electron": "^5.0.3"
+  }
+}
