@@ -1,10 +1,9 @@
 const fs = require('fs');
 const config = require('./config');
 const path = require('path');
-const async = require('async');
-const dao = require('../dao');
+const db = require('../dao').model("accounts");
  
-dao.getAll()
+
 module.exports = {
     list: list,
     get: get,
