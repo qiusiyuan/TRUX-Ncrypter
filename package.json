@@ -2,8 +2,9 @@
   "name": "truxncrypter",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/qiusiyuan/TRUX-Ncrypter#readme",
   "dependencies": {
+    "async": "^3.0.1",
     "express": "^4.17.1"
   },
   "devDependencies": {

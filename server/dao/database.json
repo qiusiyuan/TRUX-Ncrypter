@@ -1,0 +1,5 @@
+{
+    "dbVersion": "0.0.1",
+    "uidFileExt" : ".json",
+    "dbPath": "./db"
+}
