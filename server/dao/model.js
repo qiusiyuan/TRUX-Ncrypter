@@ -32,11 +32,11 @@ Model.prototype.load = function(){
         let uidFiles = files.filter(function(file){
             return path.extname(file) === dbconf.uidFileExt;
         });
-        let data = []
+        let data = {};
         uidFiles.forEach(function(fileName){
-            datum = utils.load(that.modelPath, fileName)
-            datum.uid = fileName.replace(dbconf.uidFileExt, '');
-            data.push(datum);  
+            datum = utils.load(that.modelPath, fileName);
+            let uid  = fileName.replace(dbconf.uidFileExt, '');
+            data[uid] = datum;  
         });
         this.data = data;
         return this;
@@ -51,28 +51,24 @@ Model.prototype.getAll = function(){
 }
 
 Model.prototype.getOne = function(uid){
-    for (let datum of this.data){
-        if(datum.uid == uid) {
-            return datum;
-        }
-    };
+    if (uid in this.data){
+        return this.data[uid];
+    }
     let errmsg = `[${this.model}]Db getOne: uid not found: ${uid}`;
     return new dbError(404,  errmsg);
 }
 
 Model.prototype.updateOne = function(uid,  fieldName, value){
-    let that = this;
-    for (let datum of this.data){
-        if(datum.uid == uid){
-            datum[fieldName] = value
-            let err = utils.write(that.modelPath, uid+dbconf.uidFileExt, datum)
-            if(err) {
-                let errmsg = `[${that.model}]Db update: ${err.message}`;
-                return new dbError(err.code||500, errmsg);
-            }
-            that.load();
-            return;
-        };
+    if (uid in this.data){
+        let datum = this.data[uid];
+        datum[fieldName] = value;
+        let err = utils.write(this.modelPath, uid+dbconf.uidFileExt, datum);
+        if(err) {
+            let errmsg = `[${this.model}]Db update: ${err.message}`;
+            return new dbError(err.code||500, errmsg);
+        }
+        this.load();
+        return;
     }
     let errmsg = `[${this.model}]Db update: uid not found: ${uid}`;
     return new dbError(404, errmsg);
