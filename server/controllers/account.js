@@ -1,6 +1,3 @@
-const fs = require('fs');
-const config = require('./config');
-const path = require('path');
 const db = require('../dao').model("accounts");
 const dbError = require("../dao").dbError;
 
