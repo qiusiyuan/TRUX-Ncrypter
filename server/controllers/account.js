@@ -2,7 +2,7 @@ const fs = require('fs');
 const config = require('./config');
 const path = require('path');
 const db = require('../dao').model("accounts");
- 
+const dbError = require("../dao").dbError;
 
 module.exports = {
     list: list,
@@ -12,61 +12,61 @@ module.exports = {
 };
 
 function list(req, res, next){
-    fs.readdir(config.dataDir, (err, files) => {
-        if (err){
-            return next(err);
-        }
-        let uidFiles = files.filter(function(file){
-            return path.extname(file) === config.accountFileExt;
-        });
-        res.status(200);
-        return res.json({
-            success: true
-        });
-    });    
+    let allAccounts = db.getAll();
+    res.status = 200;
+    res.json({
+        success: true,
+        accounts: allAccounts
+    });
+    return next();
 }
 
 function get(req, res, next){
-    fs.readdir(config.dataDir, (err, files) => {
-        if (err){
-            return next(err);
-        }
-        let uidFiles = files.filter(function(file){
-            return path.extname(file) === config.accountFileExt;
-        });
+    let uid = req.params.uid;
+    let account = db.getOne(uid);
+    if (account instanceof dbError){
+        res.status(account.statusCode);
+        res.json(account);
+    }else{
         res.status(200);
-        return res.json({
-            success: true
+        res.json({
+            success: true,
+            account: account
         });
-    });    
+    }
+    return next();
 }
 
 function edit(req, res, next){
-    fs.readdir(config.dataDir, (err, files) => {
-        if (err){
-            return next(err);
-        }
-        let uidFiles = files.filter(function(file){
-            return path.extname(file) === config.accountFileExt;
-        });
+    let uid = req.params.uid;
+    let fieldName = req.body.fieldName;
+    let value = req.body.value;
+    let err = db.updateOne(uid, fieldName, value);
+    if (err && err instanceof dbError){
+        res.status(err.statusCode);
+        res.json(err);
+    }else{
         res.status(200);
-        return res.json({
-            success: true
-        });
-    });    
+        res.json({
+            success: true,
+            message: "Successfully updated."
+        })
+    }
+    return next();
 }
 
 function create(req, res, next){
-    fs.readdir(config.dataDir, (err, files) => {
-        if (err){
-            return next(err);
-        }
-        let uidFiles = files.filter(function(file){
-            return path.extname(file) === config.accountFileExt;
-        });
+    let content = req.body.content;
+    let uid = db.create(content);
+    if (uid instanceof dbError){
+        res.status(uid.statusCode);
+        res.json(uid);
+    }else{
         res.status(200);
-        return res.json({
-            success: true
+        res.json({
+            success: true,
+            new_uid: uid
         });
-    });    
+    }
+    return next();
 }

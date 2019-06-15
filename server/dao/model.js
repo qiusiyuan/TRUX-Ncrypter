@@ -67,10 +67,11 @@ Model.prototype.updateOne = function(uid,  fieldName, value){
             let errmsg = `[${this.model}]Db update: ${err.message}`;
             return new dbError(err.code||500, errmsg);
         }
+        console.log(`[${this.model}]Db updateOne: field updated for: ${uid}`);
         this.load();
         return;
     }
-    let errmsg = `[${this.model}]Db update: uid not found: ${uid}`;
+    let errmsg = `[${this.model}]Db updateOne: uid not found: ${uid}`;
     return new dbError(404, errmsg);
 }
 
@@ -81,7 +82,7 @@ Model.prototype.create = function(content){
         let errmsg = `[${this.model}]Db create: ${err.message}`;
         return new dbError(err.code||500, errmsg)
     };
-    console.log(`[${this.model}]Db create: new uid file created: ${uid}`)
+    console.log(`[${this.model}]Db create: new uid file created: ${uid}`);
     this.load();
     return uid;
 }

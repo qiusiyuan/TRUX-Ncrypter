@@ -1,9 +1,14 @@
-let app = require('express')();
+const express = require('express');
+let app = express();
 let http = require('http').Server(app);
+
 
 app.use(function(req, res, next) {
   next();
 });
+
+app.use(express.json());
+app.use(express.urlencoded());
 
 app.use(require('./routes'));
 
