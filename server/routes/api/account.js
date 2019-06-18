@@ -7,10 +7,8 @@ router.get('/', account.list);
 
 router.get('/:uid', account.get);
 
-router.post('/:uid/edit', middleware.editCheck);
-router.post('/:uid/edit', account.edit);
+router.post('/:uid/edit', middleware.editCheck, account.edit);
 
-router.post('/new', middleware.createCheck);
-router.post('/new', account.create);
+router.post('/new', middleware.createCheck, account.create);
 
 module.exports = router;
