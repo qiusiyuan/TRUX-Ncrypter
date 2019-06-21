@@ -4,8 +4,15 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-test": "react-scripts test",
+    "react-eject": "react-scripts eject",
+    "electron-start": "electron .",
+    "electron-build": "electron-builder",
+    "release": "npm run react-build && electron-builder --publish=always",
+    "build": "npm run react-build && npm run electron-build",
+    "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "repository": {
     "type": "git",
@@ -19,9 +26,32 @@
   "homepage": "https://github.com/qiusiyuan/TRUX-Ncrypter#readme",
   "dependencies": {
     "async": "^3.0.1",
-    "express": "^4.17.1"
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "concurrently": "^4.1.0",
+    "cross-env": "^5.2.0",
+    "electron": "^5.0.4",
+    "electron-builder": "^20.44.4",
+    "electron-is-dev": "^1.1.0",
+    "express": "^4.17.1",
+    "node-sass": "^4.12.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "wait-on": "^3.2.0"
   },
-  "devDependencies": {
-    "electron": "^5.0.3"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
