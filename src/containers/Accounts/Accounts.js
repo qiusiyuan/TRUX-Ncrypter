@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import SearchBar from '../../components/SearchBar';
-import  InfoBox from '../../components/InfoBox';
-import  Loader from '../../components/Loader';
-
+import {InfoBox, SearchBar, Loader} from '../../components';
 
 class Accounts extends Component {
   constructor(props){
