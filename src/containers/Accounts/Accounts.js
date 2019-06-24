@@ -16,6 +16,10 @@ class Accounts extends Component {
     this.searchValueChange = this.searchValueChange.bind(this);
   }
 
+  componentDidMount(){
+    this.getAllAccounts();
+  }
+
   getAllAccounts(){
     this.setState({
       loading: true
@@ -32,8 +36,11 @@ class Accounts extends Component {
   }
 
   searchValueChange(evt){
-    console.log(evt);
+    this.setState({
+      filter: evt.target.value,
+    });
   }
+
   render(){
     let that = this;
     return (
