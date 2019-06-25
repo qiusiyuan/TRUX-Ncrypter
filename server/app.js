@@ -1,7 +1,7 @@
 const express = require('express');
 let app = express();
 let http = require('http').Server(app);
-//const path = require('path');
+const path = require('path');
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -11,9 +11,11 @@ app.use(function(req, res, next) {
 
 app.use(express.json());
 app.use(express.urlencoded());
-//app.use('/static', express.static(path.join(__dirname, 'public')));
-
+app.use('/', express.static(path.join(__dirname, '../build')))
 app.use(require('./routes'));
+app.get("*", function(req, res){
+  res.sendFile(path.join(__dirname, "../build/index.html"))
+});
 
 // handle error
 app.use(function(err, req, res, next) {
