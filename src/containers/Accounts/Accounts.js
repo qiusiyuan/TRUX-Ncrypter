@@ -10,7 +10,6 @@ class Accounts extends Component {
       accounts: {},
       loading: true,
       filter:'',
-      show: {},
     };
     this.getAllAccounts = this.getAllAccounts.bind(this);
     this.searchValueChange = this.searchValueChange.bind(this);
@@ -28,7 +27,6 @@ class Accounts extends Component {
       .then(res => {
         this.setState({
           accounts: res.data.accounts,
-          show: res.data.accounts,
           loading: false,
         });
         
@@ -52,14 +50,21 @@ class Accounts extends Component {
         {this.state.loading ? (<Loader/>)
         :  Object.keys(this.state.accounts).map((id) => {
           let account = that.state.accounts[id]; 
-          console.log(id, account)
-          return (<InfoBox
-                    account={account}
-                  />);
+          if (Object.values(account).filter(contains(that.state.filter)).length > 0){
+            return (<InfoBox
+              account={account}
+            />);
+          }
         })
         }
       </div>
     )
+  }
+}
+
+function contains(sub){
+  return function(main){
+    return main.includes(sub);
   }
 }
 

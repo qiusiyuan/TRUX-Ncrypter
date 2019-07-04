@@ -15,7 +15,7 @@ function list(req, res, next){
         success: true,
         accounts: allAccounts
     });
-    return next();
+    return;
 }
 
 function get(req, res, next){
@@ -31,7 +31,7 @@ function get(req, res, next){
             account: account
         });
     }
-    return next();
+    return;
 }
 
 function edit(req, res, next){
@@ -49,7 +49,7 @@ function edit(req, res, next){
             message: "Successfully updated."
         })
     }
-    return next();
+    return;
 }
 
 function create(req, res, next){
@@ -65,5 +65,5 @@ function create(req, res, next){
             new_uid: uid
         });
     }
-    return next();
+    return;
 }

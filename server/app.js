@@ -11,8 +11,8 @@ app.use(function(req, res, next) {
 
 app.use(express.json());
 app.use(express.urlencoded());
-app.use('/', express.static(path.join(__dirname, '../build')))
 app.use(require('./routes'));
+app.use('/', express.static(path.join(__dirname, '../build')))
 app.get("*", function(req, res){
   res.sendFile(path.join(__dirname, "../build/index.html"))
 });
