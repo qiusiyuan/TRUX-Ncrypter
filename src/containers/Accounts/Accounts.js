@@ -59,7 +59,7 @@ class Accounts extends Component {
         {this.state.loading ? (<Loader/>)
         :  Object.keys(this.state.accounts).map((id) => {
           let account = that.state.accounts[id]; 
-          if (Object.values(account).filter(contains(that.state.filter)).length > 0){
+          if (Object.values(account).filter(contains(that.state.filter)).length > 0 || account.alias.filter(contains(that.state.filter)).length > 0){
             return (<InfoBox
               account={account}
               id={id}

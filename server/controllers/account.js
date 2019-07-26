@@ -1,5 +1,6 @@
 const db = require('../dao').model("accounts");
 const dbError = require("../dao").dbError;
+const utils = require('../utils');
 
 module.exports = {
     list: list,
@@ -10,6 +11,19 @@ module.exports = {
 
 function list(req, res, next){
     let allAccounts = db.getAll();
+    Object.keys(allAccounts).forEach(id => {
+      let account= allAccounts[id];
+      account.alias = [];
+      if (!utils.isEmpty(account.title)){
+        account.alias.push(utils.toPinyin(account.title));
+      }
+      if (!utils.isEmpty(account.username)){
+        account.alias.push(utils.toPinyin(account.username))
+      }
+      if (!utils.isEmpty(account.password)){
+        account.alias.push(utils.toPinyin(account.password))
+      }
+    });
     res.status = 200;
     res.json({
         success: true,
