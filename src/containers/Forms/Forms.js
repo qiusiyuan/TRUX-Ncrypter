@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './form.css';
-import {EditForm} from '../../components';
+import {EditForm, Loader} from '../../components';
 
 class Forms extends Component {
   constructor(props){
@@ -20,6 +20,9 @@ class Forms extends Component {
     this.addOthersClick = this.addOthersClick.bind(this);
     this.editFormOnSave = this.editFormOnSave.bind(this);
     this.deleteOtherClick = this.deleteOtherClick.bind(this);
+    this.reloadClick = this.reloadClick.bind(this);
+    this.createClick = this.createClick.bind(this);
+    this.cancelClick = this.cancelClick.bind(this);
   }
 
   componentDidMount(){
@@ -98,6 +101,51 @@ class Forms extends Component {
     }
   }
 
+  reloadClick(){
+    window.location.reload();
+  }
+
+  createClick(){
+    this.setState({
+      loading: true
+    });
+    if (this.state.accountID){ // edit
+      let data = {content:[{
+        fieldName: "title",
+        value: this.state.formContent.title,
+      }, {
+        fieldName: "username",
+        value: this.state.formContent.username,
+      },{
+        fieldName: "password",
+        value: this.state.formContent.password,
+      }, {
+        fieldName: "others",
+        value: this.state.formContent.others,
+      }]}
+      axios.post(`http://localhost:3001/api/account/${this.state.accountID}/edit`, data)
+        .then(res => {
+          this.setState({
+            loading: false,
+          });
+      });
+    }else{ // create new
+      let data = {
+        content: this.state.formContent
+      };
+      axios.post(`http://localhost:3001/api/account/new`, data)
+        .then(res => {
+          this.setState({
+            loading: false,
+          });
+      });
+    }
+  }
+
+  cancelClick(){
+    window.location = "/accounts"
+  }
+
   render(){
     let formContent = this.state.formContent;
     let inputOnChange = this.inputOnChange;
@@ -105,29 +153,32 @@ class Forms extends Component {
       <div id="form">
         <div className="modal-header">
           <div className="form-row">
-            <EditForm labelClass="modal-title h5" onSave={this.editFormOnSave} onSaveParams={{field:"title"}} editing={!this.state.formContent.title&&true} value={this.state.formContent.title} placeholder="Title"/>
+            {this.state.loading ? <Loader/>: <EditForm labelClass="modal-title h5" onSave={this.editFormOnSave} onSaveParams={{field:"title"}} editing={!this.state.formContent.title&&true} value={this.state.formContent.title} placeholder="Title"/>}
           </div>
-          <button type='button'> Reload </button>
-          <button type='button'> Create </button>
-          <button type='button'> Cancel </button>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type='button' onClick={this.reloadClick} className="btn btn-outline-secondary"> Reload </button>
+            <button type='button' onClick={this.createClick} className="btn btn-outline-info"> {this.state.accountID ? 'Update':'Create'} </button>
+            <button type='button' onClick={this.cancelClick} className="btn btn-outline-warning"> Cancel </button>
+          </div>
         </div >
         <div className="padding-form">
           <div className="form-group row">
             <label for="inputUser" className="col-sm-2 col-form-label">User</label>
             <div className="col-sm-10">
-              <input type="user" className="form-control" id="username" placeholder="User" value={formContent.username} onChange={inputOnChange}/>
+            {this.state.loading ? <Loader/>:<input type="user" className="form-control" id="username" placeholder="User" value={formContent.username} onChange={inputOnChange}/>}
             </div>
           </div>
 
           <div className="form-group row">
             <label for="inputPassword" className="col-sm-2 col-form-label">Password</label>
             <div className="col-sm-10 input-group mb-2">
-              <input type={this.state.passwordHide ? "password": "text"} className="form-control" id="password" placeholder="password" value={formContent.password} onChange={inputOnChange}/>
+            {this.state.loading ? <Loader/>:<input type={this.state.passwordHide ? "password": "text"} className="form-control" id="password" placeholder="password" value={formContent.password} onChange={inputOnChange}/>}
               <div className="input-group-prepend">
                 <a className="input-group-text" onClick={this.togglePassword}>{this.state.passwordHide ? "show" : "hide"}</a>
               </div>
             </div>
           </div>
+          {this.state.loading ? <Loader/>:
           <div id="others">
           <p id="others">others</p>
           {formContent.others && formContent.others.map((match, index)=>{
@@ -149,7 +200,7 @@ class Forms extends Component {
               </div>
             </div>);
             })}
-          </div>
+          </div>}
           <button type="button" className="btn btn-outline-dark" onClick={this.addOthersClick}>+ Others</button>
         </div>
     </div>

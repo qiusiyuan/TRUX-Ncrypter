@@ -28,6 +28,7 @@ class InfoBox extends Component {
           { account.password }
           </h5>
         </div>
+        <a className='info-box-details' href={`/edit/${this.props.id}`} > Details </a>
       </div>
     );
   }
@@ -35,6 +36,7 @@ class InfoBox extends Component {
 
 InfoBox.propTypes = {
   account: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default InfoBox;

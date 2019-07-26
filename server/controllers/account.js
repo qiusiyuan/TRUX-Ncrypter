@@ -36,9 +36,8 @@ function get(req, res, next){
 
 function edit(req, res, next){
     let uid = req.params.uid;
-    let fieldName = req.body.fieldName;
-    let value = req.body.value;
-    let err = db.updateOne(uid, fieldName, value);
+    let content = req.body.content;
+    let err = db.updateOne(uid, content);
     if (err && err instanceof dbError){
         res.status(err.statusCode);
         res.json(err);

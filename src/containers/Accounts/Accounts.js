@@ -43,16 +43,26 @@ class Accounts extends Component {
     let that = this;
     return (
       <div id="Accounts">
-        <button onClick={this.getAllAccounts}>refresh</button>
-        <SearchBar 
-          inputOnChange={this.searchValueChange}
-        />
+        <div className="form-group row">
+          <div className="col-md-10">
+            <SearchBar 
+              inputOnChange={this.searchValueChange}
+            /> 
+          </div>
+          <div className="col-sm">
+            <div class="btn-group btn-group-lg" role="group">
+              <button type="button" className="btn btn-light" onClick={this.getAllAccounts}>Reload</button>
+              <button type="button" className="btn btn-light"> <a href="/edit">Create</a></button>
+            </div>
+          </div>
+        </div>
         {this.state.loading ? (<Loader/>)
         :  Object.keys(this.state.accounts).map((id) => {
           let account = that.state.accounts[id]; 
           if (Object.values(account).filter(contains(that.state.filter)).length > 0){
             return (<InfoBox
               account={account}
+              id={id}
             />);
           }
         })

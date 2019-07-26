@@ -18,11 +18,15 @@
 }
 
 .info-box-pass{
-  width: 40%;
+  width: 30%;
   position: relative;
   left: 15%;
 }
 
+.info-box-details{
+  left: 5%;
+  position: relative;
+}
 .line{
   float: left;
   text-align: left;

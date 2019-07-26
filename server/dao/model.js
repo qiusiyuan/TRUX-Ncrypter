@@ -58,10 +58,12 @@ Model.prototype.getOne = function(uid){
     return new dbError(404,  errmsg);
 }
 
-Model.prototype.updateOne = function(uid,  fieldName, value){
+Model.prototype.updateOne = function(uid,  pairs){
     if (uid in this.data){
         let datum = this.data[uid];
-        datum[fieldName] = value;
+        pairs.forEach((pair) => {
+          datum[pair.fieldName] = pair.value;
+        });
         let err = utils.write(this.modelPath, uid+dbconf.uidFileExt, datum);
         if(err) {
             let errmsg = `[${this.model}]Db update: ${err.message}`;
