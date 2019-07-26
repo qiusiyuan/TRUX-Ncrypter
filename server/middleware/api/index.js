@@ -1,5 +1,5 @@
 let router = require('express').Router();
 
-router.use('/api', require('./api'));
+router.use('/account', require('./accountMiddleware'));
 
 module.exports = router;
