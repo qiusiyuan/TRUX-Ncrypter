@@ -3,17 +3,19 @@ const utils = require('./utils');
 const path = require('path');
 const dbError = require('./dbError');
 const fs = require('fs');
+const { app } = require ('electron');
 
 function Model(modelName){
     this.model = modelName;
-    this.modelPath = path.join(__dirname, dbconf.dbPath ,this.model);
+    this.modelPath = path.join(app.getPath("userData"), dbconf.dbPath, this.model);
     this.checkModel();
     this.load();
 }
 
 Model.prototype.checkModel = function(){
     try {
-        let files = fs.readdirSync(path.join(__dirname, dbconf.dbPath));
+        fs.mkdirSync(path.join(app.getPath("userData"), dbconf.dbPath ));
+        let files = fs.readdirSync( path.join(app.getPath("userData"), dbconf.dbPath ));
         if (! files.includes(this.model)){
             fs.mkdirSync(this.modelPath);
             console.log(`[${this.model}]Db checkModel: new model [${this.model}] created`);

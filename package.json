@@ -2,7 +2,7 @@
   "name": "truxncrypter",
   "version": "1.0.0",
   "description": "",
-  "main": "electron.js",
+  "main": "./electron.js",
   "homepage": "./",
   "scripts": {
     "react-start": "react-scripts start",
@@ -12,14 +12,17 @@
     "electron-start": "electron .",
     "electron-build": "electron-builder",
     "release": "npm run react-build && electron-builder --publish=always",
-    "build": "npm run react-build && npm run electron-build",
+    "build": "npm run react-build  && npm run electron-build",
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "build": {
     "appId": "truxncrypter",
+    "extends": null,
     "files": [
+      "electron.js",
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "server/**/*"
     ],
     "directories": {
       "buildResources": "assets"

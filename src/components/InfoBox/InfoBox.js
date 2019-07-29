@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './infobox.css';
+import { Link } from 'react-router-dom';
 
 class InfoBox extends Component {
   constructor(props){
@@ -28,7 +29,9 @@ class InfoBox extends Component {
           { account.password }
           </h5>
         </div>
-        <a className='info-box-details' href={`/edit/${this.props.id}`} > Details </a>
+        <Link to={`/edit/${this.props.id}`}>
+        <button className='info-box-details' > Details </button>
+        </Link>
       </div>
     );
   }

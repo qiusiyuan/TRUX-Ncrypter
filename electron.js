@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 let server = require(path.join(__dirname, './server/app'));
 let win = null;
@@ -7,7 +7,7 @@ const isDev = require("electron-is-dev");
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 960,
+    width: 1296,
     height: 720,
     webPreferences: {
       nodeIntegration: true

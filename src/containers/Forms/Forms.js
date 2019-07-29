@@ -155,7 +155,7 @@ class Forms extends Component {
           <div className="form-row">
             {this.state.loading ? <Loader/>: <EditForm labelClass="modal-title h5" onSave={this.editFormOnSave} onSaveParams={{field:"title"}} editing={!this.state.formContent.title&&true} value={this.state.formContent.title} placeholder="Title"/>}
           </div>
-          <div class="btn-group" role="group" aria-label="Basic example">
+          <div className="btn-group" role="group" aria-label="Basic example">
             <button type='button' onClick={this.reloadClick} className="btn btn-outline-secondary"> Reload </button>
             <button type='button' onClick={this.createClick} className="btn btn-outline-info"> {this.state.accountID ? 'Update':'Create'} </button>
             <button type='button' onClick={this.cancelClick} className="btn btn-outline-warning"> Cancel </button>
@@ -163,14 +163,14 @@ class Forms extends Component {
         </div >
         <div className="padding-form">
           <div className="form-group row">
-            <label for="inputUser" className="col-sm-2 col-form-label">User</label>
+            <label className="col-sm-2 col-form-label">User</label>
             <div className="col-sm-10">
             {this.state.loading ? <Loader/>:<input type="user" className="form-control" id="username" placeholder="User" value={formContent.username} onChange={inputOnChange}/>}
             </div>
           </div>
 
           <div className="form-group row">
-            <label for="inputPassword" className="col-sm-2 col-form-label">Password</label>
+            <label className="col-sm-2 col-form-label">Password</label>
             <div className="col-sm-10 input-group mb-2">
             {this.state.loading ? <Loader/>:<input type={this.state.passwordHide ? "password": "text"} className="form-control" id="password" placeholder="password" value={formContent.password} onChange={inputOnChange}/>}
               <div className="input-group-prepend">
