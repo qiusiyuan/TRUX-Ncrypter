@@ -16,7 +16,7 @@ function createWindow () {
   // and load the index.html of the app.
   win.loadURL(
   isDev
-  ? "http://localhost:3000"
+  ? "http://localhost:3000/accounts"
   : "http://localhost:3001"
   );
 
