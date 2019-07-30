@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {InfoBox, SearchBar, Loader} from '../../components';
+import { Link } from 'react-router-dom';
 
 class Accounts extends Component {
   constructor(props){
@@ -52,7 +53,7 @@ class Accounts extends Component {
           <div className="col-sm">
             <div class="btn-group btn-group-lg" role="group">
               <button type="button" className="btn btn-light" onClick={this.getAllAccounts}>Reload</button>
-              <button type="button" className="btn btn-light"> <a href="/edit">Create</a></button>
+              <button type="button" className="btn btn-light"> <Link to="/edit">Create</Link></button>
             </div>
           </div>
         </div>

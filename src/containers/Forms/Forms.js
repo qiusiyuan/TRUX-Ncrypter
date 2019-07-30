@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './form.css';
 import {EditForm, Loader} from '../../components';
+import { Link } from 'react-router-dom';
 
 class Forms extends Component {
   constructor(props){
@@ -22,7 +23,6 @@ class Forms extends Component {
     this.deleteOtherClick = this.deleteOtherClick.bind(this);
     this.reloadClick = this.reloadClick.bind(this);
     this.createClick = this.createClick.bind(this);
-    this.cancelClick = this.cancelClick.bind(this);
   }
 
   componentDidMount(){
@@ -142,10 +142,6 @@ class Forms extends Component {
     }
   }
 
-  cancelClick(){
-    window.location = "/accounts"
-  }
-
   render(){
     let formContent = this.state.formContent;
     let inputOnChange = this.inputOnChange;
@@ -158,7 +154,7 @@ class Forms extends Component {
           <div className="btn-group" role="group" aria-label="Basic example">
             <button type='button' onClick={this.reloadClick} className="btn btn-outline-secondary"> Reload </button>
             <button type='button' onClick={this.createClick} className="btn btn-outline-info"> {this.state.accountID ? 'Update':'Create'} </button>
-            <button type='button' onClick={this.cancelClick} className="btn btn-outline-warning"> Cancel </button>
+            <button type='button' className="btn btn-outline-warning"><Link to="/accounts"> Cancel </Link></button>
           </div>
         </div >
         <div className="padding-form">
