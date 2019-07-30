@@ -10,6 +10,10 @@ function Model(modelName){
     this.modelPath = path.join(app.getPath("userData"), dbconf.dbPath, this.model);
     this.checkModel();
     this.load();
+    let that = this;
+    setInterval(function () { 
+      that.load();
+    }, 10000);   
 }
 
 Model.prototype.checkModel = function(){
