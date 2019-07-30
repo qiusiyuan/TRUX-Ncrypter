@@ -1,5 +1,5 @@
-const db = require('../dao').model("accounts");
-const utils = require('../utils');
+const db = require('../../dao').model("accounts");
+const utils = require('../../utils');
 
 module.exports = {
   list: list,

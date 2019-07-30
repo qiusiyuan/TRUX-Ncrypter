@@ -115,13 +115,13 @@ class Forms extends Component {
         value: this.state.formContent.title,
       }, {
         fieldName: "username",
-        value: this.state.formContent.username,
+        value: this.state.formContent.username || '',
       },{
         fieldName: "password",
-        value: this.state.formContent.password,
+        value: this.state.formContent.password || '',
       }, {
         fieldName: "others",
-        value: this.state.formContent.others,
+        value: this.state.formContent.others||[],
       }]}
       axios.post(`http://localhost:3001/api/account/${this.state.accountID}/edit`, data)
         .then(res => {
@@ -152,7 +152,6 @@ class Forms extends Component {
             {this.state.loading ? <Loader/>: <EditForm labelClass="modal-title h5" onSave={this.editFormOnSave} onSaveParams={{field:"title"}} editing={!this.state.formContent.title&&true} value={this.state.formContent.title} placeholder="Title"/>}
           </div>
           <div className="btn-group" role="group" aria-label="Basic example">
-            <button type='button' onClick={this.reloadClick} className="btn btn-outline-secondary"> Reload </button>
             <button type='button' onClick={this.createClick} className="btn btn-outline-info"> {this.state.accountID ? 'Update':'Create'} </button>
             <button type='button' className="btn btn-outline-warning"><Link to="/accounts"> Cancel </Link></button>
           </div>
