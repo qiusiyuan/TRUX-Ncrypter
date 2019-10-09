@@ -22,6 +22,7 @@
     "files": [
       "electron.js",
       "build/**/*",
+      "public/**/*",
       "node_modules/**/*",
       "server/**/*",
       "preload.js",
@@ -29,6 +30,9 @@
     ],
     "directories": {
       "buildResources": "assets"
+    },
+    "win": {
+      "icon": "public/icon1.ico"
     }
   },
   "repository": {
