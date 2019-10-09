@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {InfoBox, SearchBar, Loader} from '../../components';
-import { Link } from 'react-router-dom';
-
+import {InfoBox, SearchBar, Loader, isElectron} from '../../components';
+// import { Link } from 'react-router-dom';
 class Accounts extends Component {
   constructor(props){
     super(props);
@@ -14,24 +13,38 @@ class Accounts extends Component {
     };
     this.getAllAccounts = this.getAllAccounts.bind(this);
     this.searchValueChange = this.searchValueChange.bind(this);
+    this.switchPageToForms = this.switchPageToForms.bind(this);
   }
 
   componentDidMount(){
     this.getAllAccounts();
   }
 
+  switchPageToForms(){
+    this.props.switchPage({page:"forms", id: null});
+  }
+
   getAllAccounts(){
     this.setState({
       loading: true
-    });
-    axios.get('http://localhost:3001/api/account')
+    }); 
+    if (isElectron()) {
+      window.ipcRenderer.send('accounts', 'new accounts');
+      window.ipcRenderer.once("accounts-reply", (event, arg) => {
+        this.setState({
+          accounts: arg.accounts,
+          loading: false,
+        });
+      })
+    } else{
+      axios.get('http://localhost:3001/api/account')
       .then(res => {
         this.setState({
           accounts: res.data.accounts,
           loading: false,
         });
-        
       });
+    } 
   }
 
   searchValueChange(evt){
@@ -53,7 +66,7 @@ class Accounts extends Component {
           <div className="col-sm">
             <div class="btn-group btn-group-lg" role="group">
               <button type="button" className="btn btn-light" onClick={this.getAllAccounts}>Reload</button>
-              <button type="button" className="btn btn-light"> <Link to="/edit">Create</Link></button>
+              <button type="button" className="btn btn-light" onClick={this.switchPageToForms}>Create</button>
             </div>
           </div>
         </div>
@@ -64,6 +77,7 @@ class Accounts extends Component {
             return (<InfoBox
               account={account}
               id={id}
+              switchPage={this.props.switchPage}
             />);
           }
         })

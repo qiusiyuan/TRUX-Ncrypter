@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './form.css';
-import {EditForm, Loader} from '../../components';
-import { Link } from 'react-router-dom';
+import {EditForm, Loader, isElectron} from '../../components';
+// import { Link } from 'react-router-dom';
 
 class Forms extends Component {
   constructor(props){
@@ -23,6 +23,7 @@ class Forms extends Component {
     this.deleteOtherClick = this.deleteOtherClick.bind(this);
     this.reloadClick = this.reloadClick.bind(this);
     this.createClick = this.createClick.bind(this);
+    this.switchPageToAccounts = this.switchPageToAccounts.bind(this);
   }
 
   componentDidMount(){
@@ -31,18 +32,33 @@ class Forms extends Component {
     }
   }
 
+  switchPageToAccounts(){
+    this.props.switchPage({page:"accounts"});
+  }
+
   getAccount(){
     this.setState({
       loading: true
     });
-    axios.get(`http://localhost:3001/api/account/${this.state.accountID}`)
+    if (isElectron()){
+      window.ipcRenderer.send('accountOne', {uid: this.state.accountID});
+      window.ipcRenderer.once("accountOne-reply", (event, arg) => {
+        this.setState({
+          account: arg.account,
+          formContent: arg.account,
+          loading: false,
+        });
+      })
+    }else{
+      axios.get(`http://localhost:3001/api/account/${this.state.accountID}`)
       .then(res => {
         this.setState({
           account: res.data.account,
           formContent: res.data.account,
           loading: false,
         });
-    });
+      });
+    }
   }
 
   togglePassword(){
@@ -123,22 +139,41 @@ class Forms extends Component {
         fieldName: "others",
         value: this.state.formContent.others||[],
       }]}
-      axios.post(`http://localhost:3001/api/account/${this.state.accountID}/edit`, data)
+      if (isElectron()){
+        data.uid = this.state.accountID;
+        window.ipcRenderer.send('edit', data);
+        window.ipcRenderer.once("edit-reply", (event, arg) => {
+          this.setState({
+            loading: false,
+          });
+        })
+      }else{
+        axios.post(`http://localhost:3001/api/account/${this.state.accountID}/edit`, data)
         .then(res => {
           this.setState({
             loading: false,
           });
-      });
+        });
+      }
     }else{ // create new
       let data = {
         content: this.state.formContent
       };
-      axios.post(`http://localhost:3001/api/account/new`, data)
-        .then(res => {
+      if (isElectron()){
+        window.ipcRenderer.send('create', data);
+        window.ipcRenderer.once("create-reply", (event, arg) => {
           this.setState({
             loading: false,
           });
-      });
+        })
+      } else{
+        axios.post(`http://localhost:3001/api/account/new`, data)
+          .then(res => {
+            this.setState({
+              loading: false,
+            });
+        });
+      }
     }
   }
 
@@ -153,7 +188,7 @@ class Forms extends Component {
           </div>
           <div className="btn-group" role="group" aria-label="Basic example">
             <button type='button' onClick={this.createClick} className="btn btn-outline-info"> {this.state.accountID ? 'Update':'Create'} </button>
-            <button type='button' className="btn btn-outline-warning"><Link to="/accounts"> Cancel </Link></button>
+            <button type='button' className="btn btn-outline-warning" onClick={this.switchPageToAccounts}> Cancel </button>
           </div>
         </div >
         <div className="padding-form">

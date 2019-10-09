@@ -1,6 +1,4 @@
-const db = require('../dao').model("accounts");
 const dbError = require("../dao").dbError;
-const utils = require('../utils');
 const accountUtils = require('./utils/accountUtils');
 
 module.exports = {

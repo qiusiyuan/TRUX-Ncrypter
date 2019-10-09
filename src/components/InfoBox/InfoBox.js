@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './infobox.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 class InfoBox extends Component {
   constructor(props){
     super(props);
 
     this.state = {};
+    this.switchPageToFromId = this.switchPageToFromId.bind(this);
+  }
+
+  switchPageToFromId(){
+    let options = {
+      page: "forms",
+      id: this.props.id
+    }
+    this.props.switchPage(options);
   }
 
   render(){
@@ -29,9 +38,7 @@ class InfoBox extends Component {
           { account.password }
           </h5>
         </div>
-        <Link to={`/edit/${this.props.id}`}>
-        <button className='info-box-details' > Details </button>
-        </Link>
+        <button className='info-box-details' onClick={this.switchPageToFromId}> Details </button>
       </div>
     );
   }

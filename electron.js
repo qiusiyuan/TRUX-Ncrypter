@@ -1,6 +1,6 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
-let server = require(path.join(__dirname, './server/app'));
+require("./main_process.js");
+// let server = require(path.join(__dirname, './server/app'));
 let win = null;
 const isDev = require("electron-is-dev");
 
@@ -10,14 +10,16 @@ function createWindow () {
     width: 1296,
     height: 720,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      preload: __dirname + '/preload.js'
     }
   })
   // and load the index.html of the app.
-  win.loadURL(
-  isDev
-  ? "http://localhost:3000/accounts"
-  : "http://localhost:3001"
+  win.loadFile(
+  // isDev
+  // ? "http://localhost:3000/accounts"
+  // : "http://localhost:3001"
+  "build/index.html"
   );
 
   // Open the DevTools.

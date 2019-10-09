@@ -23,7 +23,9 @@
       "electron.js",
       "build/**/*",
       "node_modules/**/*",
-      "server/**/*"
+      "server/**/*",
+      "preload.js",
+      "main_process.js"
     ],
     "directories": {
       "buildResources": "assets"
@@ -46,6 +48,7 @@
     "cross-env": "^5.2.0",
     "electron-is-dev": "^1.1.0",
     "express": "^4.17.1",
+    "is-electron": "^2.2.0",
     "jquery": "^3.4.1",
     "pinyin4js": "^1.3.18",
     "popper.js": "^1.15.0",
